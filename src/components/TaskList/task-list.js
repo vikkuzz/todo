@@ -1,13 +1,9 @@
 import Task from "../Task";
 
-const TaskList = ({ todos }) => {
+const TaskList = ({ todos, onDeleted }) => {
   const elem = todos.map((item) => {
     const { id, ...itemProps } = item;
-    return (
-      <li key={id}>
-        <Task {...itemProps} />
-      </li>
-    );
+    return <Task key={id} {...itemProps} onDeleted={() => onDeleted(id)} />;
   });
   return <ul className="todo-list">{elem}</ul>;
 };

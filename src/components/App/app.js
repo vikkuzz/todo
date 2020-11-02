@@ -31,7 +31,6 @@ export default class App extends Component {
         <TaskList
           todos={this.state.taskData}
           onDeleted={(id) => this.deleteItem(id)}
-          editTask={(id) => console.log(id)}
         />
         <Footer />
       </section>

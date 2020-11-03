@@ -1,9 +1,11 @@
-import AppHeader from "../AppHeader";
+import NewTaskForm from "../NewTaskForm";
 import TaskList from "../TaskList";
 import Footer from "../Footer";
 import React, { Component } from "react";
 
 export default class App extends Component {
+  maxId = 100;
+
   state = {
     taskData: [
       { description: "Completed task", id: "01" },
@@ -24,10 +26,30 @@ export default class App extends Component {
     });
   };
 
+  addItem = (text) => {
+    //gen id
+    const newItem = {
+      description: text,
+      important: false,
+      id: this.maxId++,
+    };
+
+    this.setState(({ taskData }) => {
+      const newArr = [...taskData, newItem];
+
+      return {
+        taskData: newArr,
+      };
+    });
+  };
+
   render() {
     return (
       <section className="todoapp">
-        <AppHeader />
+        <div className="header">
+          <h1>todos</h1>
+        </div>
+        <NewTaskForm onAdded={this.addItem} />
         <TaskList
           todos={this.state.taskData}
           onDeleted={(id) => this.deleteItem(id)}

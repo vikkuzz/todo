@@ -8,13 +8,6 @@ export default class Task extends Component {
     });
   };
 
-  completeTask = () => {
-    this.setState({
-      done: !this.state.done,
-      finish: false,
-    });
-  };
-
   finishEditItem = (e) => {
     if (e.key === "Enter") {
       this.setState({
@@ -33,7 +26,7 @@ export default class Task extends Component {
   };
 
   render() {
-    let { description, onDeleted, id } = this.props;
+    let { description, onDeleted, id, onToggleDone } = this.props;
     let { done, edit, finish, text } = this.state;
 
     let classNames = "";
@@ -56,7 +49,7 @@ export default class Task extends Component {
           <input
             className="toggle"
             type="checkbox"
-            onClick={this.completeTask}
+            onClick={onToggleDone}
           ></input>
           <label>
             <span className="description">{text}</span>

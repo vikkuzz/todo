@@ -18,7 +18,7 @@ export default class App extends Component {
     return {
       description,
       done: false,
-      finish: false,
+
       edit: false,
       id: this.maxId++,
       text: this.props.description,
@@ -92,9 +92,36 @@ export default class App extends Component {
     });
   };
 
+  showActiveTask = (propName) => {
+    this.setState(({ taskData }) => {
+      const taskArr = taskData.filter((el) => !el[propName]);
+
+      return {
+        taskData: taskArr,
+      };
+    });
+  };
+  showCompletedTask = (propName) => {
+    this.setState(({ taskData }) => {
+      const taskArr = taskData.filter((el) => el[propName]);
+
+      return {
+        taskData: taskArr,
+      };
+    });
+  };
+  showAllTask = () => {
+    this.setState(({ taskData }) => {
+      return {
+        taskData,
+      };
+    });
+  };
+
   render() {
     const { taskData } = this.state;
     const doneCount = taskData.filter((el) => el.done).length;
+    const active = taskData.filter((el) => !el.done);
     const todoCount = taskData.length - doneCount;
 
     return (
@@ -110,7 +137,14 @@ export default class App extends Component {
           onToggleEdit={this.onToggleEdit}
           onEditTask={this.onEditTask}
         />
-        <Footer doneCount={doneCount} />
+        <Footer
+          doneCount={doneCount}
+          todoCount={todoCount}
+          active={active}
+          showActiveTask={this.showActiveTask}
+          showCompletedTask={this.showCompletedTask}
+          showAllTask={this.showAllTask}
+        />
       </section>
     );
   }

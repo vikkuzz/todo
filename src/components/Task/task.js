@@ -26,8 +26,8 @@ export default class Task extends Component {
   };
 
   render() {
-    let { description, onDeleted, id, onToggleDone } = this.props;
-    let { done, edit, finish, text } = this.state;
+    let { description, onDeleted, id, onToggleDone, done } = this.props;
+    let { edit, finish, text } = this.state;
 
     let classNames = "";
 

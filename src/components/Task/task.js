@@ -1,33 +1,17 @@
 import React, { Component } from "react";
 
 export default class Task extends Component {
-  editItem = () => {
-    this.setState({
-      edit: !this.state.edit,
-      finish: false,
-    });
-  };
-
-  finishEditItem = (e) => {
-    if (e.key === "Enter") {
-      this.setState({
-        finish: !this.state.finish,
-        edit: false,
-        text: e.target.value,
-      });
-    }
-  };
-
-  state = {
-    done: false,
-    edit: false,
-    finish: false,
-    text: this.props.description,
-  };
-
   render() {
-    let { description, onDeleted, id, onToggleDone, done } = this.props;
-    let { edit, finish, text } = this.state;
+    let {
+      description,
+      onDeleted,
+      id,
+      onToggleDone,
+      onToggleEdit,
+      done,
+      onEditTask,
+      edit,
+    } = this.props;
 
     let classNames = "";
 
@@ -36,11 +20,6 @@ export default class Task extends Component {
     }
     if (done) {
       classNames = "completed";
-    }
-    if (finish) {
-      console.log("wtf?");
-      classNames = "";
-      description = text;
     }
 
     return (
@@ -52,20 +31,17 @@ export default class Task extends Component {
             onClick={onToggleDone}
           ></input>
           <label>
-            <span className="description">{text}</span>
+            <span className="description">{description}</span>
             <span className="created">created 5 minutes ago</span>
           </label>
-          <button
-            className="icon icon-edit"
-            onClick={() => this.editItem({ id })}
-          ></button>
+          <button className="icon icon-edit" onClick={onToggleEdit}></button>
           <button className="icon icon-destroy" onClick={onDeleted}></button>
         </div>
         <input
           type="text"
           className="edit"
-          defaultValue={this.state.text}
-          onKeyDown={this.finishEditItem}
+          defaultValue={description}
+          onKeyDown={onEditTask}
         ></input>
       </li>
     );

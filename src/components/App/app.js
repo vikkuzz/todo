@@ -71,10 +71,31 @@ export default class App extends Component {
     });
   };
 
+  onEditTask = (id, e) => {
+    if (e.key === "Enter") {
+      this.onToggleEdit(id);
+    }
+    this.setState(({ taskData }) => {
+      const idx = taskData.findIndex((el) => el.id === id);
+      const oldItem = taskData[idx];
+      const newItem = { ...oldItem, description: e.target.value };
+
+      const newArray = [
+        ...taskData.slice(0, idx),
+        newItem,
+        ...taskData.slice(idx + 1),
+      ];
+
+      return {
+        taskData: newArray,
+      };
+    });
+  };
+
   render() {
     const { taskData } = this.state;
     const doneCount = taskData.filter((el) => el.done).length;
-    // const todoCount = taskData.length - doneCount;
+    const todoCount = taskData.length - doneCount;
 
     return (
       <section className="todoapp">
@@ -87,6 +108,7 @@ export default class App extends Component {
           onDeleted={(id) => this.deleteItem(id)}
           onToggleDone={this.onToggleDone}
           onToggleEdit={this.onToggleEdit}
+          onEditTask={this.onEditTask}
         />
         <Footer doneCount={doneCount} />
       </section>

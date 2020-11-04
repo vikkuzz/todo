@@ -1,6 +1,12 @@
 import Task from "../Task";
 
-const TaskList = ({ todos, onDeleted, onToggleDone }) => {
+const TaskList = ({
+  todos,
+  onDeleted,
+  onToggleDone,
+  onToggleEdit,
+  onEditTask,
+}) => {
   const elem = todos.map((item) => {
     const { id, ...itemProps } = item;
     return (
@@ -9,6 +15,8 @@ const TaskList = ({ todos, onDeleted, onToggleDone }) => {
         {...itemProps}
         onDeleted={() => onDeleted(id)}
         onToggleDone={() => onToggleDone(id)}
+        onToggleEdit={() => onToggleEdit(id)}
+        onEditTask={(e) => onEditTask(id, e)}
       />
     );
   });

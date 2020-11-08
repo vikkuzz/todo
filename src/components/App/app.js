@@ -12,6 +12,10 @@ export default class App extends Component {
       this.createTodoItem("second task"),
       this.createTodoItem("third task"),
     ],
+    filter: { all: true, active: false, completed: false },
+    all: [],
+    active: [],
+    completed: [],
   };
 
   createTodoItem(description) {
@@ -92,36 +96,81 @@ export default class App extends Component {
     });
   };
 
-  showActiveTask = (propName) => {
+  showActiveTask = () => {
     this.setState(({ taskData }) => {
-      const taskArr = taskData.filter((el) => !el[propName]);
+      const taskArr = taskData.filter((el) => !el.done);
 
       return {
-        taskData: taskArr,
+        active: taskArr,
       };
     });
   };
-  showCompletedTask = (propName) => {
+
+  showCompletedTask = () => {
     this.setState(({ taskData }) => {
-      const taskArr = taskData.filter((el) => el[propName]);
+      const taskArr = taskData.filter((el) => el.done);
 
       return {
-        taskData: taskArr,
+        completed: taskArr,
       };
     });
   };
+
   showAllTask = () => {
     this.setState(({ taskData }) => {
+      let newArray = [...taskData];
+
       return {
-        taskData,
+        all: newArray,
       };
     });
+    console.log(this.state.all);
+  };
+
+  onFilterTarget = (e) => {
+    const item = e.target.parentNode.parentNode;
+    const arrChilds = item.childNodes;
+    e.target.className = "selected";
+    let id = 0;
+    arrChilds.forEach((item, i, arr) => {
+      if (item.firstChild !== e.target) {
+        item.firstChild.className = "";
+      } else {
+        id = i;
+      }
+    });
+    if (id === 0) {
+      this.setState(({ filter }) => {
+        filter.all = true;
+        filter.active = false;
+        filter.completed = false;
+      });
+      this.showAllTask();
+    }
+    if (id === 1) {
+      this.setState(({ filter }) => {
+        filter.all = false;
+        filter.active = true;
+        filter.completed = false;
+      });
+      this.showActiveTask();
+    }
+    if (id === 2) {
+      this.setState(({ filter }) => {
+        filter.all = false;
+        filter.active = false;
+        filter.completed = true;
+      });
+      this.showCompletedTask();
+      console.log(this.state);
+    }
+    console.log(id);
   };
 
   render() {
-    const { taskData } = this.state;
+    const { taskData, filter, all, active, completed } = this.state;
     const doneCount = taskData.filter((el) => el.done).length;
-    const active = taskData.filter((el) => !el.done);
+    //const actives = taskData.filter((el) => !el.done);
     const todoCount = taskData.length - doneCount;
 
     return (
@@ -132,6 +181,10 @@ export default class App extends Component {
         <NewTaskForm onAdded={this.addItem} />
         <TaskList
           todos={taskData}
+          filter={filter}
+          all={all}
+          active={active}
+          completed={completed}
           onDeleted={(id) => this.deleteItem(id)}
           onToggleDone={this.onToggleDone}
           onToggleEdit={this.onToggleEdit}
@@ -140,10 +193,10 @@ export default class App extends Component {
         <Footer
           doneCount={doneCount}
           todoCount={todoCount}
-          active={active}
           showActiveTask={this.showActiveTask}
           showCompletedTask={this.showCompletedTask}
-          showAllTask={this.showAllTask}
+          //showAllTask={this.showAllTask}
+          onFilterTarget={this.onFilterTarget}
         />
       </section>
     );

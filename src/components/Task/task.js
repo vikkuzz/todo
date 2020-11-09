@@ -11,6 +11,7 @@ export default class Task extends Component {
       done,
       onEditTask,
       edit,
+      checked,
     } = this.props;
 
     let classNames = "";
@@ -21,6 +22,9 @@ export default class Task extends Component {
     if (done) {
       classNames = "completed";
     }
+    if (!done) {
+      checked = false;
+    }
 
     return (
       <li key={id} className={classNames}>
@@ -29,6 +33,7 @@ export default class Task extends Component {
             className="toggle"
             type="checkbox"
             onClick={onToggleDone}
+            checked={checked}
           ></input>
           <label>
             <span className="description">{description}</span>

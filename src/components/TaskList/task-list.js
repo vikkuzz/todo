@@ -9,6 +9,7 @@ const TaskList = ({
   onToggleEdit,
   onEditTask,
 }) => {
+  const checked = true;
   let elem = null;
   if (filter.all) {
     elem = todos.map((item) => {
@@ -21,6 +22,7 @@ const TaskList = ({
           onToggleDone={() => onToggleDone(id)}
           onToggleEdit={() => onToggleEdit(id)}
           onEditTask={(e) => onEditTask(id, e)}
+          checked={checked}
         />
       );
     });
@@ -61,6 +63,7 @@ const TaskList = ({
           onToggleDone={() => onToggleDone(id)}
           onToggleEdit={() => onToggleEdit(id)}
           onEditTask={(e) => onEditTask(id, e)}
+          checked={checked}
         />
       );
     });

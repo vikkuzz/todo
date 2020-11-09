@@ -11,6 +11,7 @@ export default class Footer extends Component {
       showCompletedTask,
       //showAllTask,
       onFilterTarget,
+      deleteCompletedTask,
     } = this.props;
     return (
       <footer className="footer">
@@ -22,7 +23,9 @@ export default class Footer extends Component {
           //showAllTask={() => showAllTask()}
           onFilterTarget={(e) => onFilterTarget(e)}
         />
-        <button className="clear-completed">Clear completed</button>
+        <button className="clear-completed" onClick={deleteCompletedTask}>
+          Clear completed
+        </button>
       </footer>
     );
   }

@@ -8,9 +8,9 @@ export default class App extends Component {
 
   state = {
     taskData: [
-      this.createTodoItem("first task"),
-      this.createTodoItem("second task"),
-      this.createTodoItem("third task"),
+      this.createTodoItem("помыть пол"),
+      this.createTodoItem("съесть вкусняшку"),
+      this.createTodoItem("почесать лопатку"),
     ],
     filter: { all: true, active: false, completed: false },
     all: [],
@@ -95,6 +95,15 @@ export default class App extends Component {
       };
     });
   };
+  deleteCompletedTask = () => {
+    this.setState(({ taskData }) => {
+      const taskArr = taskData.filter((el) => !el.done);
+
+      return {
+        taskData: taskArr,
+      };
+    });
+  };
 
   showActiveTask = () => {
     this.setState(({ taskData }) => {
@@ -176,7 +185,7 @@ export default class App extends Component {
     return (
       <section className="todoapp">
         <div className="header">
-          <h1>todos</h1>
+          <h1>Че делать?</h1>
         </div>
         <NewTaskForm onAdded={this.addItem} />
         <TaskList
@@ -197,6 +206,7 @@ export default class App extends Component {
           showCompletedTask={this.showCompletedTask}
           //showAllTask={this.showAllTask}
           onFilterTarget={this.onFilterTarget}
+          deleteCompletedTask={this.deleteCompletedTask}
         />
       </section>
     );

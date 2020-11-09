@@ -24,7 +24,7 @@ export default class NewTaskForm extends Component {
           className="new-todo"
           type="text"
           onChange={this.onDescriptionChange}
-          placeholder="What needs to be done?"
+          placeholder="следующий шаг в захвате мира"
           autoFocus
           value={this.state.description}
         ></input>

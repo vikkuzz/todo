@@ -20,13 +20,13 @@ export default class TaskFilter extends Component {
     return (
       <ul className="filters" onClick={onFilterTarget}>
         <li>
-          <button className={classNames}>All</button>
+          <button className={classNames}>Все</button>
         </li>
         <li>
-          <button>Active</button>
+          <button>Актив</button>
         </li>
         <li>
-          <button>Completed</button>
+          <button>Завершен</button>
         </li>
       </ul>
     );

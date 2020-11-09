@@ -13,9 +13,6 @@ export default class App extends Component {
       this.createTodoItem("почесать лопатку"),
     ],
     filter: { all: true, active: false, completed: false },
-    all: [],
-    active: [],
-    completed: [],
   };
 
   createTodoItem(description) {

@@ -2,9 +2,7 @@ import Task from "../Task";
 
 const TaskList = ({
   todos,
-  all,
-  active,
-  completed,
+
   filter,
   onDeleted,
   onToggleDone,
@@ -28,7 +26,12 @@ const TaskList = ({
     });
   }
   if (filter.active) {
-    elem = active.map((item) => {
+    let filterArr = todos.filter((item) => {
+      if (!item.done) {
+        return item;
+      }
+    });
+    elem = filterArr.map((item) => {
       const { id, ...itemProps } = item;
       return (
         <Task
@@ -43,7 +46,12 @@ const TaskList = ({
     });
   }
   if (filter.completed) {
-    elem = completed.map((item) => {
+    let filterArr = todos.filter((item) => {
+      if (item.done) {
+        return item;
+      }
+    });
+    elem = filterArr.map((item) => {
       const { id, ...itemProps } = item;
       return (
         <Task

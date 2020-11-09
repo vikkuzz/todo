@@ -32,7 +32,7 @@ export default class Task extends Component {
           ></input>
           <label>
             <span className="description">{description}</span>
-            <span className="created">created 5 minutes ago</span>
+            <span className="created">создано 5 минут назад</span>
           </label>
           <button className="icon icon-edit" onClick={onToggleEdit}></button>
           <button className="icon icon-destroy" onClick={onDeleted}></button>

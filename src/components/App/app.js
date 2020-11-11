@@ -19,7 +19,7 @@ export default class App extends Component {
     return {
       description,
       done: false,
-
+      time: Date.now(),
       edit: false,
       id: this.maxId++,
       text: this.props.description,

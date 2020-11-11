@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { formatDistanceToNowStrict } from "date-fns";
 
 export default class Task extends Component {
   render() {
@@ -11,8 +12,11 @@ export default class Task extends Component {
       done,
       onEditTask,
       edit,
+      time,
       checked,
     } = this.props;
+
+    let timer = formatDistanceToNowStrict(time);
 
     let classNames = "";
 
@@ -37,7 +41,7 @@ export default class Task extends Component {
           ></input>
           <label>
             <span className="description">{description}</span>
-            <span className="created">создано 5 минут назад</span>
+            <span className="created">создано {timer} назад</span>
           </label>
           <button className="icon icon-edit" onClick={onToggleEdit}></button>
           <button className="icon icon-destroy" onClick={onDeleted}></button>

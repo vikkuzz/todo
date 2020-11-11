@@ -10,6 +10,7 @@ const TaskList = ({
   onEditTask,
 }) => {
   const checked = true;
+
   let elem = null;
   if (filter.all) {
     elem = todos.map((item) => {

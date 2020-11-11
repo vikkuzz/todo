@@ -29,11 +29,7 @@ const TaskList = ({
     });
   }
   if (filter.active) {
-    let filterArr = todos.filter((item) => {
-      if (!item.done) {
-        return item;
-      }
-    });
+    let filterArr = todos.filter((item) => !item.done);
     elem = filterArr.map((item) => {
       const { id, ...itemProps } = item;
       return (
@@ -49,11 +45,7 @@ const TaskList = ({
     });
   }
   if (filter.completed) {
-    let filterArr = todos.filter((item) => {
-      if (item.done) {
-        return item;
-      }
-    });
+    let filterArr = todos.filter((item) => item.done);
     elem = filterArr.map((item) => {
       const { id, ...itemProps } = item;
       return (

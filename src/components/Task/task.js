@@ -37,7 +37,7 @@ export default class Task extends Component {
             className="toggle"
             type="checkbox"
             onClick={onToggleDone}
-            checked={checked}
+            defaultChecked={checked}
           ></input>
           <label>
             <span className="description">{description}</span>

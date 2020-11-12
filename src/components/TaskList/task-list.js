@@ -2,7 +2,6 @@ import Task from "../Task";
 
 const TaskList = ({
   todos,
-
   filter,
   onDeleted,
   onToggleDone,
@@ -12,55 +11,30 @@ const TaskList = ({
   const checked = true;
 
   let elem = null;
-  if (filter.all) {
-    elem = todos.map((item) => {
-      const { id, ...itemProps } = item;
-      return (
-        <Task
-          key={id}
-          {...itemProps}
-          onDeleted={() => onDeleted(id)}
-          onToggleDone={() => onToggleDone(id)}
-          onToggleEdit={() => onToggleEdit(id)}
-          onEditTask={(e) => onEditTask(id, e)}
-          checked={checked}
-        />
-      );
-    });
+  let filterArr = todos;
+
+  if (filter === "Все") {
+    filterArr = todos.filter((item) => item);
+  } else if (filter === "Актив") {
+    filterArr = todos.filter((item) => !item.done);
+  } else if (filter === "Завершен") {
+    filterArr = todos.filter((item) => item.done);
   }
-  if (filter.active) {
-    let filterArr = todos.filter((item) => !item.done);
-    elem = filterArr.map((item) => {
-      const { id, ...itemProps } = item;
-      return (
-        <Task
-          key={id}
-          {...itemProps}
-          onDeleted={() => onDeleted(id)}
-          onToggleDone={() => onToggleDone(id)}
-          onToggleEdit={() => onToggleEdit(id)}
-          onEditTask={(e) => onEditTask(id, e)}
-        />
-      );
-    });
-  }
-  if (filter.completed) {
-    let filterArr = todos.filter((item) => item.done);
-    elem = filterArr.map((item) => {
-      const { id, ...itemProps } = item;
-      return (
-        <Task
-          key={id}
-          {...itemProps}
-          onDeleted={() => onDeleted(id)}
-          onToggleDone={() => onToggleDone(id)}
-          onToggleEdit={() => onToggleEdit(id)}
-          onEditTask={(e) => onEditTask(id, e)}
-          checked={checked}
-        />
-      );
-    });
-  }
+
+  elem = filterArr.map((item) => {
+    const { id, ...itemProps } = item;
+    return (
+      <Task
+        key={id}
+        {...itemProps}
+        onDeleted={() => onDeleted(id)}
+        onToggleDone={() => onToggleDone(id)}
+        onToggleEdit={() => onToggleEdit(id)}
+        onEditTask={(e) => onEditTask(id, e)}
+        checked={checked}
+      />
+    );
+  });
 
   return <ul className="todo-list">{elem}</ul>;
 };

@@ -12,7 +12,7 @@ export default class App extends Component {
       this.createTodoItem("съесть вкусняшку"),
       this.createTodoItem("почесать лопатку"),
     ],
-    filter: { all: true, active: false, completed: false },
+    filter: "",
   };
 
   createTodoItem(description) {
@@ -134,43 +134,21 @@ export default class App extends Component {
   };
 
   onFilterTarget = (e) => {
+    e.target.className = "selected";
     const item = e.target.parentNode.parentNode;
     const arrChilds = item.childNodes;
-    e.target.className = "selected";
-    let id = 0;
-    arrChilds.forEach((item, i, arr) => {
+    arrChilds.forEach((item) => {
       if (item.firstChild !== e.target) {
         item.firstChild.className = "";
-      } else {
-        id = i;
       }
     });
-    if (id === 0) {
-      this.setState(({ filter }) => {
-        filter.all = true;
-        filter.active = false;
-        filter.completed = false;
-      });
-      this.showAllTask();
-    }
-    if (id === 1) {
-      this.setState(({ filter }) => {
-        filter.all = false;
-        filter.active = true;
-        filter.completed = false;
-      });
-      this.showActiveTask();
-    }
-    if (id === 2) {
-      this.setState(({ filter }) => {
-        filter.all = false;
-        filter.active = false;
-        filter.completed = true;
-      });
-      this.showCompletedTask();
-      console.log(this.state);
-    }
-    console.log(id);
+    this.setState(() => {
+      let newFilter = e.target.innerText;
+
+      return {
+        filter: newFilter,
+      };
+    });
   };
 
   render() {

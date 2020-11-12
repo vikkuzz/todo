@@ -73,13 +73,19 @@ export default class App extends Component {
   };
 
   onEditTask = (id, e) => {
+    let value = e.target.defaultValue;
     if (e.key === "Enter") {
       this.onToggleEdit(id);
+      value = e.target.value;
+    }
+    if (e.key === "Escape") {
+      this.onToggleEdit(id);
+      e.target.value = e.target.defaultValue;
     }
     this.setState(({ taskData }) => {
       const idx = taskData.findIndex((el) => el.id === id);
       const oldItem = taskData[idx];
-      const newItem = { ...oldItem, description: e.target.value };
+      const newItem = { ...oldItem, description: value };
 
       const newArray = [
         ...taskData.slice(0, idx),

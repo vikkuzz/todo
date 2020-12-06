@@ -15,9 +15,11 @@ export default class App extends Component {
     filter: "",
   };
 
-  createTodoItem(description) {
+  createTodoItem(description, min = 0, sec = 0) {
     return {
       description,
+      min,
+      sec,
       done: false,
       time: Date.now(),
       edit: false,
@@ -38,9 +40,11 @@ export default class App extends Component {
     });
   };
 
-  addItem = (text) => {
-    //gen id
-    const newItem = this.createTodoItem(text);
+  addItem = (text, min, sec) => {
+    if (text.length < 1) {
+      text = "новая задача";
+    }
+    const newItem = this.createTodoItem(text, min, sec);
 
     this.setState(({ taskData }) => {
       const newArr = [...taskData, newItem];
@@ -160,7 +164,7 @@ export default class App extends Component {
   render() {
     const { taskData, filter, all, active, completed } = this.state;
     const doneCount = taskData.filter((el) => el.done).length;
-    //const actives = taskData.filter((el) => !el.done);
+
     const todoCount = taskData.length - doneCount;
 
     return (
@@ -185,7 +189,6 @@ export default class App extends Component {
           todoCount={todoCount}
           showActiveTask={this.showActiveTask}
           showCompletedTask={this.showCompletedTask}
-          //showAllTask={this.showAllTask}
           onFilterTarget={this.onFilterTarget}
           deleteCompletedTask={this.deleteCompletedTask}
         />

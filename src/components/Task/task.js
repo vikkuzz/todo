@@ -5,6 +5,8 @@ export default class Task extends Component {
   render() {
     let {
       description,
+      min,
+      sec,
       onDeleted,
       id,
       onToggleDone,
@@ -40,7 +42,12 @@ export default class Task extends Component {
             defaultChecked={checked}
           ></input>
           <label>
-            <span className="description">{description}</span>
+            <span className="title">{description}</span>
+            <span className="description">
+              <button className="icon icon-play"></button>
+              <button className="icon icon-pause"></button>
+              {min}:{sec}
+            </span>
             <span className="created">создано {timer} назад</span>
           </label>
           <button className="icon icon-edit" onClick={onToggleEdit}></button>

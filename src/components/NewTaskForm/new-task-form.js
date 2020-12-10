@@ -3,8 +3,8 @@ import React, { Component } from "react";
 export default class NewTaskForm extends Component {
   state = {
     description: "",
-    min: 0,
-    sec: 0,
+    min: "",
+    sec: "",
   };
   onDescriptionChange = (e) => {
     this.setState({
@@ -17,6 +17,10 @@ export default class NewTaskForm extends Component {
     });
   };
   onSecChange = (e) => {
+    if (e.target.value > 60) {
+      alert("не больше 60 секунд");
+      e.target.value = "";
+    }
     this.setState({
       sec: e.target.value,
     });
@@ -24,7 +28,20 @@ export default class NewTaskForm extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.props.onAdded(this.state.description, this.state.min, this.state.sec);
+
+    if (this.state.min.length === 0) {
+      alert("введите время в минутах");
+      return;
+    }
+
+    if (this.state.sec.length === 0) {
+      alert("введите время в секундах");
+      return;
+    }
+
+    const totalInSec = +this.state.sec + this.state.min * 60;
+
+    this.props.onAdded(this.state.description, totalInSec);
     this.setState({
       description: "",
       min: "",
@@ -35,7 +52,7 @@ export default class NewTaskForm extends Component {
     return (
       <>
         <div style={{ display: "flex" }}>
-          <form style={{ width: "70%" }}>
+          <form style={{ width: "70%" }} onSubmit={this.onSubmit}>
             <input
               style={{ width: "100%" }}
               className="new-todo"
@@ -46,22 +63,27 @@ export default class NewTaskForm extends Component {
               value={this.state.description}
             ></input>
           </form>
-          <form style={{ width: "15%" }}>
+          <form style={{ width: "15%" }} onSubmit={this.onSubmit}>
             <input
+              type="number"
               style={{ width: "100%" }}
               className="new-todo"
               placeholder="Min"
               onChange={this.onMinChange}
               value={this.state.min}
+              required
             />
           </form>
           <form onSubmit={this.onSubmit} style={{ width: "15%" }}>
             <input
+              type="number"
+              max="60"
               style={{ width: "100%" }}
               className="new-todo"
               placeholder="Sec"
               onChange={this.onSecChange}
               value={this.state.sec}
+              required
             />
           </form>
         </div>

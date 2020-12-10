@@ -8,18 +8,17 @@ export default class App extends Component {
 
   state = {
     taskData: [
-      this.createTodoItem("помыть пол"),
-      this.createTodoItem("съесть вкусняшку"),
-      this.createTodoItem("почесать лопатку"),
+      this.createTodoItem("помыть пол", 6),
+      this.createTodoItem("съесть вкусняшку", 6),
+      this.createTodoItem("почесать лопатку", 6),
     ],
     filter: "",
   };
 
-  createTodoItem(description, min = 0, sec = 0) {
+  createTodoItem(description, totalInSec) {
     return {
       description,
-      min,
-      sec,
+      totalInSec: totalInSec,
       done: false,
       time: Date.now(),
       edit: false,
@@ -40,11 +39,11 @@ export default class App extends Component {
     });
   };
 
-  addItem = (text, min, sec) => {
+  addItem = (text, totalInSec) => {
     if (text.length < 1) {
       text = "новая задача";
     }
-    const newItem = this.createTodoItem(text, min, sec);
+    const newItem = this.createTodoItem(text, totalInSec);
 
     this.setState(({ taskData }) => {
       const newArr = [...taskData, newItem];
@@ -76,6 +75,26 @@ export default class App extends Component {
     });
   };
 
+  startTimer = (id) => {
+    this.setState(({ taskData }) => {
+      const idx = taskData.findIndex((el) => el.id === id);
+      const oldItem = taskData[idx];
+      const updTime = oldItem.totalInSec - 1;
+
+      const newItem = { ...oldItem, totalInSec: updTime };
+
+      const newArray = [
+        ...taskData.slice(0, idx),
+        newItem,
+        ...taskData.slice(idx + 1),
+      ];
+
+      return {
+        taskData: newArray,
+      };
+    });
+  };
+
   onEditTask = (id, e) => {
     let value = e.target.defaultValue;
     if (e.key === "Enter") {
@@ -102,6 +121,7 @@ export default class App extends Component {
       };
     });
   };
+
   deleteCompletedTask = () => {
     this.setState(({ taskData }) => {
       const taskArr = taskData.filter((el) => !el.done);
@@ -183,6 +203,7 @@ export default class App extends Component {
           onToggleDone={this.onToggleDone}
           onToggleEdit={this.onToggleEdit}
           onEditTask={this.onEditTask}
+          startTimer={this.startTimer}
         />
         <Footer
           doneCount={doneCount}

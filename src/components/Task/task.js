@@ -2,11 +2,16 @@ import React, { Component } from "react";
 import { formatDistanceToNowStrict } from "date-fns";
 
 export default class Task extends Component {
+  interval = () => setInterval(this.updateTime, 1000);
+
+  updateTime = (id) => {
+    this.props.startTimer(id);
+  };
+
   render() {
     let {
       description,
-      min,
-      sec,
+      totalInSec,
       onDeleted,
       id,
       onToggleDone,
@@ -18,7 +23,7 @@ export default class Task extends Component {
       checked,
     } = this.props;
 
-    let timer = formatDistanceToNowStrict(time);
+    let timeCreate = formatDistanceToNowStrict(time);
 
     let classNames = "";
 
@@ -32,6 +37,14 @@ export default class Task extends Component {
       checked = false;
     }
 
+    if (totalInSec === 0) {
+      console.log("foo");
+      clearInterval(this.interval);
+    }
+
+    let minutes = Math.floor(totalInSec / 60);
+    let seconds = totalInSec % 60;
+
     return (
       <li key={id} className={classNames}>
         <div className="view">
@@ -44,11 +57,14 @@ export default class Task extends Component {
           <label>
             <span className="title">{description}</span>
             <span className="description">
-              <button className="icon icon-play"></button>
+              <button
+                className="icon icon-play"
+                onClick={this.interval}
+              ></button>
               <button className="icon icon-pause"></button>
-              {min}:{sec}
+              {`${minutes}:${seconds}`}
             </span>
-            <span className="created">создано {timer} назад</span>
+            <span className="created">создано {timeCreate} назад</span>
           </label>
           <button className="icon icon-edit" onClick={onToggleEdit}></button>
           <button className="icon icon-destroy" onClick={onDeleted}></button>

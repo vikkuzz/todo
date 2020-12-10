@@ -7,6 +7,7 @@ const TaskList = ({
   onToggleDone,
   onToggleEdit,
   onEditTask,
+  startTimer,
 }) => {
   const checked = true;
 
@@ -27,6 +28,7 @@ const TaskList = ({
       <Task
         key={id}
         {...itemProps}
+        startTimer={() => startTimer(id)}
         onDeleted={() => onDeleted(id)}
         onToggleDone={() => onToggleDone(id)}
         onToggleEdit={() => onToggleEdit(id)}

@@ -10,6 +10,9 @@ export default class SetTimer extends Component {
   }
 
   startTimer = () => {
+    if (this.state.play) {
+      return;
+    }
     if (this.state.totalTime > 0) {
       this.updateTime(this.state.totalTime);
       this.interval = setInterval(this.updateTime, 1000);
@@ -25,6 +28,7 @@ export default class SetTimer extends Component {
 
     this.setState({
       totalTime: newTime,
+      play: true,
     });
   };
 

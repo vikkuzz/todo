@@ -29,12 +29,12 @@ export default class NewTaskForm extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    if (this.state.min.length === 0) {
+    if (this.state.min.length === 0 || this.state.min <= 0) {
       alert("введите время в минутах");
       return;
     }
 
-    if (this.state.sec.length === 0) {
+    if (this.state.sec.length === 0 || this.state.sec <= 0) {
       alert("введите время в секундах");
       return;
     }

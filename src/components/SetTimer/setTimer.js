@@ -10,8 +10,10 @@ export default class SetTimer extends Component {
   }
 
   startTimer = () => {
-    this.updateTime(this.state.totalTime);
-    this.interval = setInterval(this.updateTime, 1000);
+    if (this.state.totalTime > 0) {
+      this.updateTime(this.state.totalTime);
+      this.interval = setInterval(this.updateTime, 1000);
+    } else return;
   };
 
   pauseTimer = () => {

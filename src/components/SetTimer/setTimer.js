@@ -5,14 +5,22 @@ export default class SetTimer extends Component {
     totalTime: this.props.totalInSec,
     play: false,
   };
+
   componentWillUnmount() {
     clearInterval(this.interval);
   }
 
   startTimer = () => {
+    console.log(this.state.play);
+
     if (this.state.play) {
       return;
     }
+
+    this.setState({
+      play: true,
+    });
+
     if (this.state.totalTime > 0) {
       this.updateTime(this.state.totalTime);
       this.interval = setInterval(this.updateTime, 1000);
@@ -21,14 +29,20 @@ export default class SetTimer extends Component {
 
   pauseTimer = () => {
     clearInterval(this.interval);
+    this.setState({
+      play: false,
+    });
   };
 
   updateTime = () => {
     let newTime = this.state.totalTime - 1;
 
+    if (newTime < 1) {
+      this.pauseTimer();
+    }
+
     this.setState({
       totalTime: newTime,
-      play: true,
     });
   };
 
@@ -38,10 +52,6 @@ export default class SetTimer extends Component {
 
     let minutes = Math.floor(totalTime / 60);
     let seconds = Math.floor(totalTime % 60);
-
-    if (totalTime < 1) {
-      this.pauseTimer();
-    }
 
     return (
       <span className="description">

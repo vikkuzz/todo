@@ -6,12 +6,15 @@ import React, { Component } from "react";
 export default class App extends Component {
   maxId = 100;
 
+  tasks = [
+    this.createTodoItem("помыть пол", 6),
+    this.createTodoItem("съесть вкусняшку", 6),
+    this.createTodoItem("почесать лопатку", 6),
+  ];
+
   state = {
-    taskData: [
-      this.createTodoItem("помыть пол", 6),
-      this.createTodoItem("съесть вкусняшку", 6),
-      this.createTodoItem("почесать лопатку", 6),
-    ],
+    taskData: [],
+
     filter: "",
   };
 
@@ -33,11 +36,26 @@ export default class App extends Component {
 
       const newArray = [...taskData.slice(0, idx), ...taskData.slice(idx + 1)];
 
+      localStorage.state = JSON.stringify(newArray);
+
       return {
         taskData: newArray,
       };
     });
   };
+
+  componentDidMount() {
+    let data = null;
+    if (localStorage.state) {
+      data = localStorage.state;
+    } else if (!localStorage.state || data.length === 0) {
+      localStorage.state = JSON.stringify(this.tasks);
+    }
+
+    this.setState({
+      taskData: JSON.parse(localStorage.state),
+    });
+  }
 
   addItem = (text, totalInSec) => {
     if (text.length < 1) {
@@ -47,6 +65,8 @@ export default class App extends Component {
 
     this.setState(({ taskData }) => {
       const newArr = [...taskData, newItem];
+
+      localStorage.state = JSON.stringify(newArr);
 
       return {
         taskData: newArr,

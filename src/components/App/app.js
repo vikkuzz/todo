@@ -4,7 +4,7 @@ import Footer from "../Footer";
 import React, { Component } from "react";
 
 export default class App extends Component {
-  maxId = 100;
+  maxId = Math.random() * 100;
 
   tasks = [
     this.createTodoItem("помыть пол", 6),
@@ -55,6 +55,10 @@ export default class App extends Component {
     this.setState({
       taskData: JSON.parse(localStorage.state),
     });
+  }
+
+  componentDidUpdate() {
+    localStorage.state = JSON.stringify(this.state.taskData);
   }
 
   addItem = (text, totalInSec) => {
@@ -206,6 +210,8 @@ export default class App extends Component {
     const doneCount = taskData.filter((el) => el.done).length;
 
     const todoCount = taskData.length - doneCount;
+
+    //console.log(localStorage.state.length);
 
     return (
       <section className="todoapp">

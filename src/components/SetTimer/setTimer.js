@@ -11,8 +11,6 @@ export default class SetTimer extends Component {
   }
 
   startTimer = () => {
-    console.log(this.state.play);
-
     if (this.state.play) {
       return;
     }
@@ -48,7 +46,6 @@ export default class SetTimer extends Component {
 
   render() {
     let { totalTime } = this.state;
-    console.log(totalTime);
 
     let minutes = Math.floor(totalTime / 60);
     let seconds = Math.floor(totalTime % 60);
